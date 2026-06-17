@@ -78,11 +78,16 @@ class AgentDB:
         return changed
 
     def get_agent_performance(self,id):
-        pass
+        conn = self.connection.get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT completed_missions , failed_missions ,completed_missions + failed_missions , (completed_missions /(completed_missions + failed_missions))*100 FROM agents WHERE id = %s" ,(id,))
+        missions = cursor.fetchone()
+        conn.close()
+        cursor.close()
+        return missions
 
     def count_active_agents(self):
         pass
-
 if __name__ == "__main__":
     connection = DBconnection()
     agent = AgentDB(connection)
@@ -90,3 +95,4 @@ if __name__ == "__main__":
     #agent.update_agent(3,{'specialty' : "women"})
     #agent.deactivate_agent(4)
     # agent.increment_completed(4)
+    print(agent.get_agent_performance(3))
