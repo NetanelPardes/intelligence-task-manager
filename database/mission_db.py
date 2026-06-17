@@ -48,7 +48,14 @@ class MissionDB:
         return changed
     
     def get_open_missions_by_agent(self,id):
-        pass
+        conn = self.connection.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM missions WHERE assigned_agent_id = %s AND status = 'ASSIGNED' OR status = 'IN_PROGRESS'  " ,(id,))
+        mission = cursor.fetchall()
+        conn.close()
+        cursor.close()
+        return mission
+
     def count_all_missions(self):
         pass
     def count_by_status(self,status):
@@ -65,4 +72,4 @@ if __name__ == "__main__":
     mission = MissionDB(connection)
     #print(mission.create_mission({"title":"dangerous","description": "Eliminate Khamenei","location":"Tehran, Iran","difficulty":6,"importance":8}))
     #print(mission.update_mission_status(2,"IN_PROGRESS"))
-    
+    print(mission.get_open_missions_by_agent(2))
