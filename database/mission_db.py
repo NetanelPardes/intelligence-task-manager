@@ -107,6 +107,23 @@ class MissionDB:
         conn.close()
         cursor.close()
         return critical_missions
+    
+    def too_much_open_misshins(self,agent_id):
+        pass
+    
+    def check_importance (self,importance ):
+        pass
+
+    def check_difficulty(self,difficulty):
+        pass
+
+    def calc_risk_level(self,importance,difficulty):
+        pass
+
+    
+
+    
+
 
 if __name__ == "__main__":
     connection = DBconnection()

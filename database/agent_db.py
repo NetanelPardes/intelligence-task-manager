@@ -95,6 +95,23 @@ class AgentDB:
         cursor.close()
         return active_agent
 
+    def is_not_active(self, agent_id):
+        conn = self.connection.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT count(*) as active_agents from agents WHERE is_active = TRUE AND id = %s" ,(agent_id,))
+        active_agent = cursor.fetchone()
+        conn.close()
+        cursor.close()
+        if active_agent['active_agents'] == 0
+            return True
+        return False
+
+    def checke_rank(self,rank):
+        if rank not in ('Junior' , 'Senior' , 'Commander'):
+            return False
+        return True 
+
+
 if __name__ == "__main__":
     connection = DBconnection()
     agent = AgentDB(connection)
@@ -102,5 +119,7 @@ if __name__ == "__main__":
     #agent.update_agent(3,{'specialty' : "women"})
     #agent.deactivate_agent(4)
     # agent.increment_completed(4)
-    print(agent.get_agent_performance(3))
+    #print(agent.get_agent_performance(3))
     #print(agent.count_active_agents())
+    #print(agent.get_agent_by_id(33))
+    print(agent.is_not_active(2))
