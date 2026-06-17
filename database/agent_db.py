@@ -68,7 +68,14 @@ class AgentDB:
         return changed
 
     def increment_failed(self,id):
-        pass
+        conn = self.connection.get_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE agents SET failed_missions = failed_missions + 1 WHERE id = %s" ,(id,))
+        conn.commit()
+        changed = cursor.rowcount > 0
+        conn.close()
+        cursor.close()
+        return changed
 
     def get_agent_performance(self,id):
         pass
