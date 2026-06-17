@@ -9,10 +9,19 @@ class DBconnection:
         self.database = "Intelligence_db"
     
     def get_connection(self):
-        mysql.connector.connect(
+        return mysql.connector.connect(
             host = self.host,
             port = self.port,
             user = self.user,
             password = self.password,
             database = self.database
         )
+    def create_database(self):
+        mydb = self.get_connection()
+        mycursor = mydb.cursor()
+        mycursor.execute("CREATE DATABASE IF NOT EXISTS Intelligence_db")
+    
+
+if __name__ == "__main__":
+    db = DBconnection()
+    db.create_database()
