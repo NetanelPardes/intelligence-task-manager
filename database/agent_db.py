@@ -34,7 +34,18 @@ class AgentDB:
         return agent
 
     def update_agent(self,id, data):
-        pass
+        conn = self.connection.get_connection()
+        cursor = conn.cursor()
+        all_keys = [f"{key} = %s" for key in data.keys()]
+        set_close = " ,".join(all_keys)
+        sql = f"UPDATE agents SET {set_close} WHERE id = %s"
+        values = list(data.values()) + [id]
+        cursor.execute(sql,values)
+        conn.commit()
+        changed = cursor.rowcount > 0
+        conn.close()
+        cursor.close()
+        return changed
 
     def deactivate_agent(self,id):
         pass
