@@ -121,4 +121,4 @@ if __name__ == "__main__":
     #print(mission.count_critical_missions())
     #print(mission.defget_top_agent())
     #print(mission.count_open_missions())
-    print(mission.assign_mission(1,2))
+    #print(mission.assign_mission(1,2))
