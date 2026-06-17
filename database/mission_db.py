@@ -9,7 +9,7 @@ class MissionDB:
         conn = self.connection.get_connection()
         cursor = conn.cursor(dictionary=True)
         cursor.execute("""INSERT INTO missions (title,description,location,difficulty,importance,risk_level) VALUES (%s,%s,%s,%s,%s,%s)""" ,
-                        (data['title'],data['description'],data['location'],data['difficulty'],data['importance'],(data['difficulty']*2)+data['importance']))
+                        (data['title'],data['description'],data['location'],data['difficulty'],data['importance'],(data['risk_level'])))
         conn.commit()
         new_id = cursor.lastrowid
         conn.close()
@@ -74,19 +74,43 @@ class MissionDB:
         cursor.close()
         return missions
     
-    def count_open_missions(self,):
-        pass
-    def count_critical_missions(self,):
-        pass
-    def defget_top_agent(self,):
-        pass
+    def count_open_missions(self):
+        conn = self.connection.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT count(*) as open_missions_count FROM missions WHERE status = 'NEW' OR status = 'ASSIGNED' OR status = 'IN_PROGRESS'")
+        missions = cursor.fetchall()
+        conn.close()
+        cursor.close()
+        return missions
+
+    def count_critical_missions(self):
+        conn = self.connection.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT count(*) as critical_missions FROM missions WHERE risk_level = %s" ,('CRITICAL',))
+        critical_missions = cursor.fetchone()
+        conn.close()
+        cursor.close()
+        return critical_missions
+
+    def defget_top_agent(self):
+        conn = self.connection.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT assigned_agent_id ,count(*) as completed_missions FROM missions WHERE status = 'completed' ORDER BY DESC")
+        critical_missions = cursor.fetchone()
+        conn.close()
+        cursor.close()
+        return critical_missions
 
 if __name__ == "__main__":
     connection = DBconnection()
     mission = MissionDB(connection)
-    #print(mission.create_mission({"title":"dangerous","description": "Eliminate Khamenei","location":"Tehran, Iran","difficulty":6,"importance":8}))
-    #print(mission.update_mission_status(2,"IN_PROGRESS"))
+    # print(mission.create_mission({"title":"dangerous","description": "Eliminate Khamenei","location":"Tehran, Iran","difficulty":1,"importance":1,'risk_level' : "LOW"}))
+    # print(mission.create_mission({"title":"dangerous","description": "Eliminate Khamenei","location":"Tehran, Iran","difficulty":4,"importance":3,'risk_level' : "MEDIUM"}))
+    #print(mission.update_mission_status(5,"COMPLETED"))
     #print(mission.get_open_missions_by_agent(2))
     #print(mission.count_all_missions())
     # print(mission.count_by_status('NEW'))
     # print(mission.count_by_status('ASSIGNED'))
+    #print(mission.count_critical_missions())
+    #print(mission.defget_top_agent())
+    print(mission.count_open_missions())
