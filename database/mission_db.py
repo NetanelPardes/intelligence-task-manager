@@ -35,7 +35,14 @@ class MissionDB:
         return mission
     
     def assign_mission(self,m_id, a_id):
-        pass
+        conn = self.connection.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("UPDATE missions SET assigned_agent_id = %s WHERE id = %s" ,(a_id,m_id))
+        conn.commit()
+        changed = cursor.rowcount > 0
+        conn.close()
+        cursor.close()
+        return changed
     
     def update_mission_status(self,id, status):
         conn = self.connection.get_connection()
@@ -112,5 +119,6 @@ if __name__ == "__main__":
     # print(mission.count_by_status('NEW'))
     # print(mission.count_by_status('ASSIGNED'))
     #print(mission.count_critical_missions())
-    print(mission.defget_top_agent())
+    #print(mission.defget_top_agent())
     #print(mission.count_open_missions())
+    print(mission.assign_mission(1,2))
