@@ -17,7 +17,7 @@ class AgentDB:
 
     def get_all_agents(self):
         conn = self.connection.get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM agents")
         agents = cursor.fetchall()
         conn.close()
@@ -26,7 +26,7 @@ class AgentDB:
 
     def get_agent_by_id(self,id):
         conn = self.connection.get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM agents WHERE id = %s" ,(id,))
         agent = cursor.fetchone()
         conn.close()
@@ -35,7 +35,7 @@ class AgentDB:
 
     def update_agent(self,id, data):
         conn = self.connection.get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
         all_keys = [f"{key} = %s" for key in data.keys()]
         set_close = " ,".join(all_keys)
         sql = f"UPDATE agents SET {set_close} WHERE id = %s"
@@ -49,7 +49,7 @@ class AgentDB:
 
     def deactivate_agent(self,id):
         conn = self.connection.get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
         cursor.execute("UPDATE agents SET is_active = FALSE WHERE id = %s" ,(id,))
         conn.commit()
         changed = cursor.rowcount > 0
@@ -59,7 +59,7 @@ class AgentDB:
     
     def increment_completed(self,id):
         conn = self.connection.get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
         cursor.execute("UPDATE agents SET completed_missions = completed_missions + 1 WHERE id = %s" ,(id,))
         conn.commit()
         changed = cursor.rowcount > 0
@@ -69,7 +69,7 @@ class AgentDB:
 
     def increment_failed(self,id):
         conn = self.connection.get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
         cursor.execute("UPDATE agents SET failed_missions = failed_missions + 1 WHERE id = %s" ,(id,))
         conn.commit()
         changed = cursor.rowcount > 0
@@ -79,15 +79,22 @@ class AgentDB:
 
     def get_agent_performance(self,id):
         conn = self.connection.get_connection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT completed_missions , failed_missions ,completed_missions + failed_missions , (completed_missions /(completed_missions + failed_missions))*100 FROM agents WHERE id = %s" ,(id,))
-        missions = cursor.fetchone()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT completed_missions as completed , failed_missions as failed ,completed_missions + failed_missions as total, (completed_missions /(completed_missions + failed_missions))*100 as Success_percent FROM agents WHERE id = %s" ,(id,))
+        missions = cursor.fetchall()
         conn.close()
         cursor.close()
         return missions
 
     def count_active_agents(self):
-        pass
+        conn = self.connection.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT count(*) as active_agents from agents WHERE is_active = TRUE" )
+        active_agent = cursor.fetchone()
+        conn.close()
+        cursor.close()
+        return active_agent
+
 if __name__ == "__main__":
     connection = DBconnection()
     agent = AgentDB(connection)
@@ -96,3 +103,4 @@ if __name__ == "__main__":
     #agent.deactivate_agent(4)
     # agent.increment_completed(4)
     print(agent.get_agent_performance(3))
+    #print(agent.count_active_agents())
