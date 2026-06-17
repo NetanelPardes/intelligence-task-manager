@@ -57,7 +57,14 @@ class MissionDB:
         return mission
 
     def count_all_missions(self):
-        pass
+        conn = self.connection.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT count(*) as missions_count FROM missions")
+        mission = cursor.fetchone()
+        conn.close()
+        cursor.close()
+        return mission
+    
     def count_by_status(self,status):
         pass
     def count_open_missions(self,):
@@ -72,4 +79,5 @@ if __name__ == "__main__":
     mission = MissionDB(connection)
     #print(mission.create_mission({"title":"dangerous","description": "Eliminate Khamenei","location":"Tehran, Iran","difficulty":6,"importance":8}))
     #print(mission.update_mission_status(2,"IN_PROGRESS"))
-    print(mission.get_open_missions_by_agent(2))
+    #print(mission.get_open_missions_by_agent(2))
+    print(mission.count_all_missions())
