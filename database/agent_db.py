@@ -48,10 +48,24 @@ class AgentDB:
         return changed
 
     def deactivate_agent(self,id):
-        pass
+        conn = self.connection.get_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE agents SET is_active = FALSE WHERE id = %s" ,(id,))
+        conn.commit()
+        changed = cursor.rowcount > 0
+        conn.close()
+        cursor.close()
+        return changed
     
     def increment_completed(self,id):
-        pass
+        conn = self.connection.get_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE agents SET completed_missions = completed_missions + 1 WHERE id = %s" ,(id,))
+        conn.commit()
+        changed = cursor.rowcount > 0
+        conn.close()
+        cursor.close()
+        return changed
 
     def increment_failed(self,id):
         pass
