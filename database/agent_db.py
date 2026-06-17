@@ -16,7 +16,13 @@ class AgentDB:
         return self.get_agent_by_id(new_id)
 
     def get_all_agents(self):
-        pass
+        conn = self.connection.get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM agents")
+        agents = cursor.fetchall()
+        conn.close()
+        cursor.close()
+        return agents
 
     def get_agent_by_id(self,id):
         conn = self.connection.get_connection()
