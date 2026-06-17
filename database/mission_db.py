@@ -95,7 +95,7 @@ class MissionDB:
     def defget_top_agent(self):
         conn = self.connection.get_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT count(*) as completed_missions FROM missions WHERE status = 'completed' GROUP BY assigned_agent_id ORDER BY completed_missions DESC LIMIT 1")
+        cursor.execute("SELECT assigned_agent_id ,count(*) as completed_missions FROM missions WHERE status = 'completed' GROUP BY assigned_agent_id ORDER BY completed_missions DESC LIMIT 1")
         critical_missions = cursor.fetchall()
         conn.close()
         cursor.close()
