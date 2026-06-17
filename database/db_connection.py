@@ -47,7 +47,7 @@ class DBconnection:
                         location VARCHAR(100) NOT NULL,
                         difficulty INT CHECK(difficulty BETWEEN 1 AND 10),
                         importance INT CHECK(importance BETWEEN 1 AND 10),
-                        status VARCHAR(50) DEFAULT 'NEW',
+                        status ENUM('NEW','ASSIGNED','IN_PROGRESS','COMPLETED','FAILED','CANCELLED') DEFAULT 'NEW',
                         risk_level VARCHAR(50) NOT NULL,
                         assigned_agent_id INT NULL
                         )

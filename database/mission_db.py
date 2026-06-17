@@ -36,8 +36,17 @@ class MissionDB:
     
     def assign_mission(self,m_id, a_id):
         pass
+    
     def update_mission_status(self,id, status):
-        pass
+        conn = self.connection.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("UPDATE missions SET status = %s WHERE id = %s" ,(status,id))
+        conn.commit()
+        changed = cursor.rowcount > 0
+        conn.close()
+        cursor.close()
+        return changed
+    
     def get_open_missions_by_agent(self,id):
         pass
     def count_all_missions(self):
@@ -50,7 +59,10 @@ class MissionDB:
         pass
     def defget_top_agent(self,):
         pass
+
 if __name__ == "__main__":
     connection = DBconnection()
     mission = MissionDB(connection)
-    # print(mission.create_mission({"title":"dangerous","description": "Eliminate Khamenei","location":"Tehran, Iran","difficulty":9,"importance":7}))
+    #print(mission.create_mission({"title":"dangerous","description": "Eliminate Khamenei","location":"Tehran, Iran","difficulty":6,"importance":8}))
+    #print(mission.update_mission_status(2,"IN_PROGRESS"))
+    
