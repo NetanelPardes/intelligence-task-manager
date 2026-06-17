@@ -102,7 +102,7 @@ class AgentDB:
         active_agent = cursor.fetchone()
         conn.close()
         cursor.close()
-        if active_agent['active_agents'] == 0
+        if active_agent['active_agents'] == 0:
             return True
         return False
 
