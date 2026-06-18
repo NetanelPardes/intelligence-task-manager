@@ -35,9 +35,9 @@ def add_new_mission(new_mission:dict):
             else:
                 raise HTTPException(status_code=422,detail="The creation is missing a location object.")
         else:
-            raise HTTPException(status_code=422,detail="The creation is missing a description object..")
+            raise HTTPException(status_code=422,detail="The creation is missing a description object.")
     else:
-        raise HTTPException(status_code=422,detail="The creation is missing a title object..")
+        raise HTTPException(status_code=422,detail="The creation is missing a title object.")
                         
 
 @router.get("/missions")
@@ -50,7 +50,30 @@ def mission_by_id(id):
     if not mission:
         raise HTTPException(status_code=404, detail="The mission does not exist in the system.")
     return {"data":mission}
-# @router.put("/missions/{id}/assign/{agent_id}") # - Associate a mission with an agent
+
+@router.put("/missions/{id}/assign/{agent_id}")
+def Assign_mission_agent(id, agent_id):
+    if my_agent.get_agent_by_id(agent_id):
+        if my_mission.get_mission_by_id(id):
+            if my_mission.get_mission_by_id(id)['status'] == 'NEW':
+                if my_agent.check_is_active(agent_id):
+                    if my_mission.too_much_open_misshins(agent_id) <= 3:
+                        if my_mission.get_mission_by_id(id)['risk_level'] == 'CRITICAL' and my_agent.get_agent_by_id(agent_id)['agent_rank'] == 'Commander':
+                            my_mission.assign_mission(id, agent_id)
+                        else:
+                            raise HTTPException(status_code=400,detail="The mission is critical and only a commander can carry it out.")
+                    else:
+                        raise HTTPException(status_code=400,detail="The agent has more than 3 active tasks.")
+                else:
+                    raise HTTPException(status_code=400,detail="The agent is inactive.")
+            else:
+                raise HTTPException(status_code=400,detail="Cannot assign a task with a status other than NEW.")
+        else:
+            raise HTTPException(status_code=404,detail="The task does not exist in the system.")
+    else:
+        raise HTTPException(status_code=404,detail="The agent does not exist in the system.")
+
+
 # @router.put("/missions/{id}/start") # - Start a mission
 # @router.put("/missions/{id}/complete") # - Complete a mission successfully
 # @router.put("/missions/{id}/fail") # - Complete a mission with failure
