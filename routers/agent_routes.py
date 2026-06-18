@@ -14,24 +14,20 @@ router = APIRouter()
 @router.post("/agents",status_code=201)
 def add_new_agents(new_agent:dict):
     logger.info("Request to add an agent has been received.")
-    if  'name' in new_agent and new_agent['name']:
-        if  'agent_rank' in new_agent and new_agent['agent_rank']:
-            if 'specialty' in new_agent and new_agent['specialty']:
-                if new_agent['agent_rank'] in ('Junior' , 'Senior' , 'Commander'):
-                    logger.info("Agent added successfully")
-                    return {"data": my_agent.create_agent(new_agent)}
-                else:
-                    logger.error("Invalid agent rank")
-                    raise HTTPException(status_code=400,detail="Invalid agent rank.")
-            else:
-                logger.error("There is no specialty")
-                raise HTTPException(status_code=422,detail="There is no specialty.")
-        else:
-            logger.error("There is no agent_rank")
-            raise HTTPException(status_code=422,detail="There is no agent_rank.")
-    else:
+    if not 'name' in new_agent or not new_agent['name']:
         logger.error("There is no name")
         raise HTTPException(status_code=422,detail="There is no name.")
+    if not 'agent_rank' in new_agent or not new_agent['agent_rank']:
+        logger.error("There is no agent_rank")
+        raise HTTPException(status_code=422,detail="There is no agent_rank.")
+    if not 'specialty' in new_agent or not new_agent['specialty']:
+        logger.error("There is no specialty")
+        raise HTTPException(status_code=422,detail="There is no specialty.")
+    if new_agent['agent_rank'] not in ('Junior' , 'Senior' , 'Commander'):
+        logger.error("Invalid agent rank")
+        raise HTTPException(status_code=400,detail="Invalid agent rank.")
+    logger.info("Agent added successfully")
+    return {"data": my_agent.create_agent(new_agent)}
     
     
 @router.get("/agents",status_code=200)

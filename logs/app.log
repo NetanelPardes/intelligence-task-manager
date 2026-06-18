@@ -25,3 +25,12 @@
 2026-06-18 16:26:17,650 | INFO | AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
 2026-06-18 16:26:47,809 | INFO | A request to add a new task has been received.
 2026-06-18 16:26:47,809 | ERROR | The creation is missing a title object.
+2026-06-18 16:27:54,381 | INFO | A request to add a new task has been received.
+2026-06-18 16:27:54,382 | INFO | New task added successfully.
+2026-06-18 16:27:54,475 | INFO | package: mysql.connector.plugins
+2026-06-18 16:27:54,475 | INFO | plugin_name: caching_sha2_password
+2026-06-18 16:27:54,475 | INFO | AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2026-06-18 16:28:13,429 | INFO | A request to add a new task has been received.
+2026-06-18 16:28:13,429 | ERROR | The creation is missing a title object.
+2026-06-18 16:28:23,460 | INFO | A request to add a new task has been received.
+2026-06-18 16:28:23,460 | ERROR | The creation is missing a importance object.
