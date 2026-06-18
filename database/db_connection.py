@@ -34,7 +34,7 @@ class DBconnection:
                         is_active BOOLEAN DEFAULT TRUE,
                         completed_missions INT DEFAULT 0,
                         failed_missions INT DEFAULT 0,
-                        agent_rank ENUM('Junior' , 'Senior' , 'Commande') NOT NULL
+                        agent_rank ENUM('Junior' , 'Senior' , 'Commander') NOT NULL
                         )
                         """
                         )

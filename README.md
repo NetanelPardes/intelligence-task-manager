@@ -97,6 +97,53 @@ get_top_agent() - Return agent with the highest completed_missions
 10 Only a task with the status NEW or ASSIGNED can be canceled — otherwise an error.
 ```
 
+## Endpoint List
+### Agents
+```
+POST /agents - Create a new agent 
+GET /agents - return All agents
+GET /agents/{id} - return agent by ID
+PUT /agents/{id} - Update agent
+PUT /agents/{id}/deactivate - Deactivate agent
+GET /agents/{id}/performance - return Agent performance
+```
+
+### Missions
+```
+POST /missions - Create a mission
+GET /missions - return All missions
+GET /missions/{id} - return mission by ID 
+PUT /missions/{id}/assign/{agent_id} - Associate a mission with an agent
+PUT /missions/{id}/start - Start a mission
+PUT /missions/{id}/complete - Complete a mission successfully
+PUT /missions/{id}/fail - Complete a mission with failure
+PUT /missions/{id}/cancel - Cancel a mission
+```
+
+### Reports
+```
+GET /summary/reports - General System Report
+GET /reports/missions-by-status - Tasks by Status
+GET /reports/top-agent - Outstanding Agent
+```
+
+## System flow
+```
+The user creates an agent with a name, specialty, and rank
+The user creates a task with a title, description, location, importance level, and difficulty level, and the computer calculates the risk level, starting with a mark that will be set to NEW
+The user associates the task with an agent
+A non-commander level agent must not receive a critical task
+Agent must be active to receive a task
+Agent must not have more than 3 open tasks
+Agent must not receive a task that is not in the NEW status
+Starting a task is only if the task is set to the ASSIGNED status and becomes PROGRESS
+Ending a task is only if the task is in the PROGRESS status and turns you into a success or failure
+Cancelling a task is only with the task in the NEW or ASSIGNED status
+You can issue a general report of the tasks and the agents
+You can issue a task report by status
+And you can display the outstanding agent
+```
+
 ## Running instructions
 Step One - Running the MYSQL Server
 ```powershell
