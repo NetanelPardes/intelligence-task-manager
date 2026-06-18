@@ -1,4 +1,4 @@
-from db_connection import DBconnection
+from database.db_connection import DBconnection
 import mysql.connector
 
 class MissionDB:
