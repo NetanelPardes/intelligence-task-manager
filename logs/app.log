@@ -13,3 +13,15 @@
 2026-06-18 16:17:10,092 | INFO | plugin_name: caching_sha2_password
 2026-06-18 16:17:10,092 | INFO | AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
 2026-06-18 16:17:10,105 | INFO | Agent by id successfully displayed
+2026-06-18 16:19:05,407 | INFO | A request to assign a task to an agent has been received.
+2026-06-18 16:19:05,488 | INFO | package: mysql.connector.plugins
+2026-06-18 16:19:05,488 | INFO | plugin_name: caching_sha2_password
+2026-06-18 16:19:05,488 | INFO | AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2026-06-18 16:19:05,557 | ERROR | The task does not exist in the system.
+2026-06-18 16:26:17,557 | INFO | A request to view all tasks has been received.
+2026-06-18 16:26:17,558 | INFO | All tasks were successfully submitted.
+2026-06-18 16:26:17,650 | INFO | package: mysql.connector.plugins
+2026-06-18 16:26:17,650 | INFO | plugin_name: caching_sha2_password
+2026-06-18 16:26:17,650 | INFO | AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2026-06-18 16:26:47,809 | INFO | A request to add a new task has been received.
+2026-06-18 16:26:47,809 | ERROR | The creation is missing a title object.
