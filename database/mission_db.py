@@ -94,7 +94,7 @@ class MissionDB:
     def count_open_missions(self):
         conn = self.connection.get_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT count(*) as open_missions_count FROM missions WHERE status = 'NEW' OR status = 'ASSIGNED' OR status = 'IN_PROGRESS'")
+        cursor.execute("SELECT count(*) as open_missions_count FROM missions WHERE status = 'IN_PROGRESS' OR status = 'ASSIGNED' OR status = 'IN_PROGRESS'")
         missions = cursor.fetchone()
         cursor.close()
         conn.close()

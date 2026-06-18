@@ -17,5 +17,12 @@ def report():
             "critical_missions": my_mission.count_critical_missions()["critical_missions"]
            }
 
-# @router.get("/reports/missions-by-status")
+@router.get("/reports/missions-by-status")
+def missions_by_status():
+    return{"open":my_mission.count_by_status('ASSIGNED')["missions_count"],
+            "in_progress": my_mission.count_by_status('IN_PROGRESS')["missions_count"],
+            "completed": my_mission.count_by_status('COMPLETED')["missions_count"],
+            "failed": my_mission.count_by_status('FAILED')["missions_count"],
+            "canceled": my_mission.count_by_status('CANCELLED')["missions_count"]}
+
 # @router.get("/reports/top-agent - Outstanding Agent")
