@@ -25,4 +25,6 @@ def missions_by_status():
             "failed": my_mission.count_by_status('FAILED')["missions_count"],
             "canceled": my_mission.count_by_status('CANCELLED')["missions_count"]}
 
-# @router.get("/reports/top-agent - Outstanding Agent")
+@router.get("/reports/top-agent")
+def the_best_agent():
+    return {"the best agent": my_mission.defget_top_agent()["assigned_agent_id"]}
