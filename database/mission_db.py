@@ -1,8 +1,10 @@
-from db_connection import DBconnection
+from database.db_connection import DBconnection
 import mysql.connector
 
+conn = DBconnection()
+
 class MissionDB:
-    def __init__(self, conn: DBconnection):
+    def __init__(self):
         self.connection = conn
     
     def create_mission(self,data):
@@ -126,7 +128,7 @@ class MissionDB:
         oprn_missions = cursor.fetchone()
         cursor.close()
         conn.close()
-        return oprn_missions
+        return oprn_missions['open_missions']
 
     
     def check_importance_and_difficulty (self,importance, difficulty ):
@@ -134,9 +136,6 @@ class MissionDB:
             return True
         return False
 
-
-    def calc_risk_level(self,importance,difficulty):
-        pass
 
     
 
@@ -157,7 +156,7 @@ if __name__ == "__main__":
     #print(mission.defget_top_agent())
     #print(mission.count_open_missions())
     #print(mission.assign_mission(1,2))
-    #print(mission.too_much_open_misshins(1))
+    print(mission.too_much_open_misshins(1))
     # print(mission.check_importance_and_difficulty(1,2))
     # print(mission.check_importance_and_difficulty(0,2))
     # print(mission.check_importance_and_difficulty(11,2))

@@ -1,8 +1,10 @@
-from db_connection import DBconnection
+from database.db_connection import DBconnection
 import mysql.connector
 
+conn = DBconnection()
+
 class AgentDB:
-    def __init__(self, conn: DBconnection):
+    def __init__(self):
         self.connection = conn
 
     def create_agent(self,data):
