@@ -60,6 +60,7 @@ def Assign_mission_agent(id, agent_id):
                     if my_mission.too_much_open_misshins(agent_id) <= 3:
                         if my_mission.get_mission_by_id(id)['risk_level'] == 'CRITICAL' and my_agent.get_agent_by_id(agent_id)['agent_rank'] == 'Commander':
                             my_mission.assign_mission(id, agent_id)
+                            return {"message" : f"mission {id} assign to agent {agent_id}"}
                         else:
                             raise HTTPException(status_code=400,detail="The mission is critical and only a commander can carry it out.")
                     else:
@@ -74,7 +75,17 @@ def Assign_mission_agent(id, agent_id):
         raise HTTPException(status_code=404,detail="The agent does not exist in the system.")
 
 
-# @router.put("/missions/{id}/start") # - Start a mission
+@router.put("/missions/{id}/start")
+def staet_mission(id):
+    mission = my_mission.get_mission_by_id(id)
+    if not mission:
+        raise HTTPException(status_code=404, detail="The mission does not exist in the system.")
+    if mission['status'] == 'ASSIGNED':
+        my_mission.update_mission_status(id,'IN_PROGRESS')
+    else:
+        raise HTTPException(status_code=400,detail="A task cannot start if it is not in the ASSIGNED status.")
+
+
 # @router.put("/missions/{id}/complete") # - Complete a mission successfully
 # @router.put("/missions/{id}/fail") # - Complete a mission with failure
 # @router.put("/missions/{id}/cancel") # - Cancel a mission

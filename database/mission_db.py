@@ -42,7 +42,7 @@ class MissionDB:
     def assign_mission(self,m_id, a_id):
         conn = self.connection.get_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("UPDATE missions SET assigned_agent_id = %s WHERE id = %s" ,(a_id,m_id))
+        cursor.execute("UPDATE missions SET assigned_agent_id = %s , status = 'ASSIGNED' WHERE id = %s" ,(a_id,m_id))
         conn.commit()
         changed = cursor.rowcount > 0
         cursor.close()
