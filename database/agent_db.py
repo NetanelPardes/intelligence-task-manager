@@ -1,4 +1,4 @@
-from database.db_connection import DBconnection
+from db_connection import DBconnection
 import mysql.connector
 
 class AgentDB:
@@ -11,8 +11,9 @@ class AgentDB:
         cursor.execute("INSERT INTO agents (name, specialty, agent_rank) VALUES (%s,%s,%s)",(data['name'],data['specialty'],data['agent_rank']))
         conn.commit()
         new_id = cursor.lastrowid
-        conn.close()
         cursor.close()
+        conn.close()
+        
         return self.get_agent_by_id(new_id)
 
     def get_all_agents(self):
@@ -20,8 +21,9 @@ class AgentDB:
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM agents")
         agents = cursor.fetchall()
-        conn.close()
         cursor.close()
+        conn.close()
+        
         return agents
 
     def get_agent_by_id(self,id):
@@ -29,8 +31,9 @@ class AgentDB:
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM agents WHERE id = %s" ,(id,))
         agent = cursor.fetchone()
-        conn.close()
         cursor.close()
+        conn.close()
+        
         return agent
 
     def update_agent(self,id, data):
@@ -43,8 +46,9 @@ class AgentDB:
         cursor.execute(sql,values)
         conn.commit()
         changed = cursor.rowcount > 0
-        conn.close()
         cursor.close()
+        conn.close()
+        
         return changed
 
     def deactivate_agent(self,id):
@@ -53,8 +57,9 @@ class AgentDB:
         cursor.execute("UPDATE agents SET is_active = FALSE WHERE id = %s" ,(id,))
         conn.commit()
         changed = cursor.rowcount > 0
-        conn.close()
         cursor.close()
+        conn.close()
+        
         return changed
     
     def increment_completed(self,id):
@@ -63,8 +68,9 @@ class AgentDB:
         cursor.execute("UPDATE agents SET completed_missions = completed_missions + 1 WHERE id = %s" ,(id,))
         conn.commit()
         changed = cursor.rowcount > 0
-        conn.close()
         cursor.close()
+        conn.close()
+        
         return changed
 
     def increment_failed(self,id):
@@ -73,8 +79,9 @@ class AgentDB:
         cursor.execute("UPDATE agents SET failed_missions = failed_missions + 1 WHERE id = %s" ,(id,))
         conn.commit()
         changed = cursor.rowcount > 0
-        conn.close()
         cursor.close()
+        conn.close()
+        
         return changed
 
     def get_agent_performance(self,id):
@@ -82,8 +89,9 @@ class AgentDB:
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT completed_missions as completed , failed_missions as failed ,completed_missions + failed_missions as total, (completed_missions /(completed_missions + failed_missions))*100 as Success_percent FROM agents WHERE id = %s" ,(id,))
         missions = cursor.fetchall()
-        conn.close()
         cursor.close()
+        conn.close()
+        
         return missions
 
     def count_active_agents(self):
@@ -91,20 +99,21 @@ class AgentDB:
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT count(*) as active_agents from agents WHERE is_active = TRUE" )
         active_agent = cursor.fetchone()
-        conn.close()
         cursor.close()
+        conn.close()
+        
         return active_agent
 
-    def is_not_active(self, agent_id):
+    def check_is_active(self, agent_id):
         conn = self.connection.get_connection()
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT count(*) as active_agents from agents WHERE is_active = TRUE AND id = %s" ,(agent_id,))
         active_agent = cursor.fetchone()
-        conn.close()
         cursor.close()
+        conn.close()
         if active_agent['active_agents'] == 0:
-            return True
-        return False
+            return False
+        return True
 
     def checke_rank(self,rank):
         if rank not in ('Junior' , 'Senior' , 'Commander'):

@@ -54,11 +54,11 @@ class DBconnection:
                         """
                         )
         mydb.commit() 
-        mydb.close()
         mycursor.close()
+        mydb.close()
+        
 
 if __name__ == "__main__":
     db = DBconnection()
     db.create_database()
-    db.create_tables()
     db.create_tables()
