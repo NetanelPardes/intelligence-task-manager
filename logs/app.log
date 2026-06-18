@@ -1,0 +1,15 @@
+2026-06-18 16:02:55,084 | INFO | A request to assign a task to an agent has been received.
+2026-06-18 16:02:55,168 | INFO | package: mysql.connector.plugins
+2026-06-18 16:02:55,169 | INFO | plugin_name: caching_sha2_password
+2026-06-18 16:02:55,169 | INFO | AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2026-06-18 16:02:55,240 | ERROR | The task does not exist in the system.
+2026-06-18 16:03:22,354 | INFO | A request to assign a task to an agent has been received.
+2026-06-18 16:03:22,439 | INFO | package: mysql.connector.plugins
+2026-06-18 16:03:22,439 | INFO | plugin_name: caching_sha2_password
+2026-06-18 16:03:22,439 | INFO | AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2026-06-18 16:03:22,512 | ERROR | The task does not exist in the system.
+2026-06-18 16:17:09,991 | INFO | A request to display an agent by id has been received.
+2026-06-18 16:17:10,092 | INFO | package: mysql.connector.plugins
+2026-06-18 16:17:10,092 | INFO | plugin_name: caching_sha2_password
+2026-06-18 16:17:10,092 | INFO | AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2026-06-18 16:17:10,105 | INFO | Agent by id successfully displayed

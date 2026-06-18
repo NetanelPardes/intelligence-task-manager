@@ -5,13 +5,21 @@ The goal of the project is to create and manage data of tasks and agents and com
 ## Folder structure
 ```
 intelligence-task-manager/
-├── database/
+├── main.py 
+├──/database
 │   ├── db_connection.py
 │   ├── agent_db.py
 │   └── mission_db.py
-├── README.md
-├── requirements.txt
-└── .gitignore
+├──/routes
+│   ├── agent_routes.py
+│   ├── mission_routes.py
+│   └── report_routes.py
+├──/logs
+│   └── app.log
+├── logging_config.py
+├── README.md 
+└── requirements.txt
+
 ```
 ## Table structure
 
