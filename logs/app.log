@@ -34,3 +34,21 @@
 2026-06-18 16:28:13,429 | ERROR | The creation is missing a title object.
 2026-06-18 16:28:23,460 | INFO | A request to add a new task has been received.
 2026-06-18 16:28:23,460 | ERROR | The creation is missing a importance object.
+2026-06-18 16:32:02,688 | INFO | A request to display all agents has been received.
+2026-06-18 16:32:02,688 | INFO | All agents were successfully introduced.
+2026-06-18 16:32:02,778 | INFO | package: mysql.connector.plugins
+2026-06-18 16:32:02,778 | INFO | plugin_name: caching_sha2_password
+2026-06-18 16:32:02,779 | INFO | AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2026-06-18 16:32:34,242 | INFO | Request to add an agent has been received.
+2026-06-18 16:32:34,242 | INFO | Agent added successfully
+2026-06-18 16:32:47,270 | INFO | Request to add an agent has been received.
+2026-06-18 16:32:47,270 | ERROR | There is no agent_rank
+2026-06-18 16:32:59,083 | INFO | Request to add an agent has been received.
+2026-06-18 16:32:59,084 | ERROR | There is no agent_rank
+2026-06-18 16:33:05,608 | INFO | Request to add an agent has been received.
+2026-06-18 16:33:05,608 | ERROR | Invalid agent rank
+2026-06-18 16:35:13,170 | INFO | A request to assign a task to an agent has been received.
+2026-06-18 16:35:13,265 | INFO | package: mysql.connector.plugins
+2026-06-18 16:35:13,265 | INFO | plugin_name: caching_sha2_password
+2026-06-18 16:35:13,265 | INFO | AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2026-06-18 16:35:13,347 | ERROR | The task does not exist in the system.

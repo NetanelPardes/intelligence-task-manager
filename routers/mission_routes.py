@@ -66,16 +66,16 @@ def Assign_mission_agent(id:int, agent_id:int):
     if not my_agent.get_agent_by_id(agent_id):
         logger.error("The agent does not exist in the system.")
         raise HTTPException(status_code=404,detail="The agent does not exist in the system.")
-    if my_mission.get_mission_by_id(id):
+    if not my_mission.get_mission_by_id(id):
         logger.error("The task does not exist in the system.")
         raise HTTPException(status_code=404,detail="The task does not exist in the system.")
-    if my_mission.get_mission_by_id(id)['status'] == 'NEW':
+    if not my_mission.get_mission_by_id(id)['status'] == 'NEW':
         logger.error("Cannot assign a task with a status other than NEW.")
         raise HTTPException(status_code=400,detail="Cannot assign a task with a status other than NEW.")
-    if my_agent.check_is_active(agent_id):
+    if not my_agent.check_is_active(agent_id):
         logger.error("The agent is inactive.")
         raise HTTPException(status_code=400,detail="The agent is inactive.")
-    if my_mission.too_much_open_misshins(agent_id) < 3:
+    if not my_mission.too_much_open_misshins(agent_id) < 3:
         logger.error("The agent has more than 3 active tasks.")
         raise HTTPException(status_code=400,detail="The agent has more than 3 active tasks.")
     if my_mission.get_mission_by_id(id)['risk_level'] == 'CRITICAL': 
