@@ -65,3 +65,4 @@ def get_performance(id):
     if not agent:
         raise HTTPException(status_code=404, detail="The agent does not exist in the system.")
     return {"data" : my_agent.get_agent_performance(id)}
+
