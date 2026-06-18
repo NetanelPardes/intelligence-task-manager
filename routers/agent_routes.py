@@ -22,3 +22,7 @@ def add_new_agents(new_agent:dict):
             raise HTTPException(status_code=422,detail="There is no name.")
     else:
         raise HTTPException(status_code=400,detail="Invalid agent rank.")
+    
+@router.get("/agents")
+def all_agents():
+    return {"message":agent.get_all_agents()}
