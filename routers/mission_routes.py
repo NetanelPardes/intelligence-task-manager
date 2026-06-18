@@ -57,12 +57,14 @@ def Assign_mission_agent(id, agent_id):
         if my_mission.get_mission_by_id(id):
             if my_mission.get_mission_by_id(id)['status'] == 'NEW':
                 if my_agent.check_is_active(agent_id):
-                    if my_mission.too_much_open_misshins(agent_id) <= 3:
-                        if my_mission.get_mission_by_id(id)['risk_level'] == 'CRITICAL' and my_agent.get_agent_by_id(agent_id)['agent_rank'] == 'Commander':
-                            my_mission.assign_mission(id, agent_id)
+                    if my_mission.too_much_open_misshins(agent_id) < 3:
+                        if my_mission.get_mission_by_id(id)['risk_level'] == 'CRITICAL': 
+                            if my_agent.get_agent_by_id(agent_id)['agent_rank'] != 'Commander':
+                                 raise HTTPException(status_code=400,detail="The mission is critical and only a commander can carry it out.")
+                            changed = my_mission.assign_mission(id, agent_id)
+                            if not changed:
+                                raise HTTPException(status_code=400,detail="Something is not working.")
                             return {"message" : f"mission {id} assign to agent {agent_id}"}
-                        else:
-                            raise HTTPException(status_code=400,detail="The mission is critical and only a commander can carry it out.")
                     else:
                         raise HTTPException(status_code=400,detail="The agent has more than 3 active tasks.")
                 else:
@@ -82,10 +84,40 @@ def staet_mission(id):
         raise HTTPException(status_code=404, detail="The mission does not exist in the system.")
     if mission['status'] == 'ASSIGNED':
         my_mission.update_mission_status(id,'IN_PROGRESS')
+        return {"message": f"mission {id} Started"}
     else:
         raise HTTPException(status_code=400,detail="A task cannot start if it is not in the ASSIGNED status.")
 
 
-# @router.put("/missions/{id}/complete") # - Complete a mission successfully
-# @router.put("/missions/{id}/fail") # - Complete a mission with failure
-# @router.put("/missions/{id}/cancel") # - Cancel a mission
+@router.put("/missions/{id}/complete") 
+def complete_mission(id):
+    mission = my_mission.get_mission_by_id(id)
+    if not mission:
+        raise HTTPException(status_code=404, detail="The mission does not exist in the system.")
+    if mission['status'] == 'IN_PROGRESS':
+        my_mission.update_mission_status(id,'COMPLETED')
+        return {"message": f"mission {id} Successfully completed"}
+    else:
+        raise HTTPException(status_code=400,detail="A task cannot start if it is not in the IN_PROGRESS status.")
+    
+@router.put("/missions/{id}/fail")
+def fail_mission(id):
+    mission = my_mission.get_mission_by_id(id)
+    if not mission:
+        raise HTTPException(status_code=404, detail="The mission does not exist in the system.")
+    if mission['status'] == 'IN_PROGRESS':
+        my_mission.update_mission_status(id,'FAILED')
+        return {"message": f"mission {id} Ended in failure"}
+    else:
+        raise HTTPException(status_code=400,detail="A task cannot start if it is not in the IN_PROGRESS status.")
+    
+@router.put("/missions/{id}/cancel") 
+def cancel_mission(id):
+    mission = my_mission.get_mission_by_id(id)
+    if not mission:
+        raise HTTPException(status_code=404, detail="The mission does not exist in the system.")
+    if mission['status'] == 'NEW' or mission['status'] =='ASSIGNED':
+        my_mission.update_mission_status(id,'CANCELLED')
+        return {"message": f"mission {id} canceled"}
+    else:
+        raise HTTPException(status_code=400,detail="A task cannot start if it is not in the IN_PROGRESS status.")
