@@ -129,11 +129,11 @@ class MissionDB:
         return oprn_missions
 
     
-    def check_importance (self,importance ):
-        pass
+    def check_importance_and_difficulty (self,importance, difficulty ):
+        if (1 <= importance <= 10) and (1 <= difficulty <= 10):
+            return True
+        return False
 
-    def check_difficulty(self,difficulty):
-        pass
 
     def calc_risk_level(self,importance,difficulty):
         pass
@@ -158,3 +158,8 @@ if __name__ == "__main__":
     #print(mission.count_open_missions())
     #print(mission.assign_mission(1,2))
     #print(mission.too_much_open_misshins(1))
+    # print(mission.check_importance_and_difficulty(1,2))
+    # print(mission.check_importance_and_difficulty(0,2))
+    # print(mission.check_importance_and_difficulty(11,2))
+    # print(mission.check_importance_and_difficulty(1,0))
+    # print(mission.check_importance_and_difficulty(1,12))
