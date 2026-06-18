@@ -9,9 +9,9 @@ router = APIRouter()
 
 @router.post("/agents",status_code=201)
 def add_new_agents(new_agent:dict):
-    if new_agent['name'] and 'name' in new_agent:
-        if new_agent['agent_rank'] and 'agent_rank' in new_agent:
-            if new_agent['specialty']and 'specialty' in new_agent:
+    if  'name' in new_agent and new_agent['name']:
+        if  'agent_rank' in new_agent and new_agent['agent_rank']:
+            if 'specialty' in new_agent and new_agent['specialty']:
                 if new_agent['agent_rank'] in ('Junior' , 'Senior' , 'Commander'):
                     return {"data": my_agent.create_agent(new_agent)}
                 else:
@@ -38,7 +38,7 @@ def agent_by_id(id):
         return {"data":agent}
         
     
-@router.put("/agents/{id}")
+@router.put("/agents/{id}",status_code=200)
 def update_agents(id,new_data:dict):
 #     if id != int:
 #         raise HTTPException(status_code=422, detail="That's not a number.")
@@ -51,7 +51,7 @@ def update_agents(id,new_data:dict):
     return {"message": f"agent {id} update successfully"}
     
 
-@router.put ("/agents/{id}/deactivate")
+@router.put ("/agents/{id}/deactivate",status_code=200)
 def make_agent(id):
     agent = my_agent.get_agent_by_id(id)
     if not agent:
@@ -59,7 +59,7 @@ def make_agent(id):
     my_agent.deactivate_agent(id)
     return {"message": f"agent {id} deactivate"}
 
-@router.get ("/agents/{id}/performance")
+@router.get ("/agents/{id}/performance",status_code=200)
 def get_performance(id):
     agent = my_agent.get_agent_by_id(id)
     if not agent:
