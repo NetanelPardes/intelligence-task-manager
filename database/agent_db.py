@@ -89,7 +89,7 @@ class AgentDB:
     def get_agent_performance(self,id):
         conn = self.connection.get_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT completed_missions as completed , failed_missions as failed ,completed_missions + failed_missions as total, (completed_missions /(completed_missions + failed_missions))*100 as Success_percent FROM agents WHERE id = %s" ,(id,))
+        cursor.execute("SELECT completed_missions as completed , failed_missions as failed ,completed_missions + failed_missions as total, (completed_missions /(completed_missions + failed_missions))*100 as success_percent FROM agents WHERE id = %s" ,(id,))
         missions = cursor.fetchall()
         cursor.close()
         conn.close()

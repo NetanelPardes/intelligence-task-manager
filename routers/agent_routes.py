@@ -48,9 +48,20 @@ def update_agents(id,new_data:dict):
     if not new_data:
         raise HTTPException(status_code=422 , detail="No data to update")
     my_agent.update_agent(id,new_data)
+    return {"message": f"agent {id} update successfully"}
     
 
+@router.put ("/agents/{id}/deactivate")
+def make_agent(id):
+    agent = my_agent.get_agent_by_id(id)
+    if not agent:
+        raise HTTPException(status_code=404, detail="The agent does not exist in the system.")
+    my_agent.deactivate_agent(id)
+    return {"message": f"agent {id} deactivate"}
 
-# @router.put ("/agents/{id}/deactivate")
-
-# @router.get ("/agents/{id}/performance")
+@router.get ("/agents/{id}/performance")
+def get_performance(id):
+    agent = my_agent.get_agent_by_id(id)
+    if not agent:
+        raise HTTPException(status_code=404, detail="The agent does not exist in the system.")
+    return {"data" : my_agent.get_agent_performance(id)}
