@@ -44,7 +44,12 @@ def add_new_mission(new_mission:dict):
 def get_all_missions():
     return {"data":my_mission.get_all_missions()}
 
-# @router.get("/missions/{id}") # - return mission by ID 
+@router.get("/missions/{id}")
+def mission_by_id(id):
+    mission = my_mission.get_mission_by_id(id)
+    if not mission:
+        raise HTTPException(status_code=404, detail="The mission does not exist in the system.")
+    return {"data":mission}
 # @router.put("/missions/{id}/assign/{agent_id}") # - Associate a mission with an agent
 # @router.put("/missions/{id}/start") # - Start a mission
 # @router.put("/missions/{id}/complete") # - Complete a mission successfully
